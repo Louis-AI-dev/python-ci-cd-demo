@@ -1,0 +1,27 @@
+name: CI avec Conda 🐍
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Cloner le repo
+        uses: actions/checkout@v3
+
+      - name: 📦 Installer Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: ci-env
+          environment-file: environment.yml
+          auto-activate-base: false
+
+      - name: 🧪 Lancer les tests
+        shell: bash -l {0}
+        run: |
+          pytest
